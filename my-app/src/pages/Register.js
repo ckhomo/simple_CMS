@@ -1,9 +1,20 @@
-import React, { useState } from "react";
-import { Form, Button, Card } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Form, Button, Card, Alert } from "react-bootstrap";
+import LoginValidate from "../function/LoginValidate";
 import swal from "sweetalert";
-function Register() {
+
+function Register(props) {
+  console.log(props);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [alert, setAlert] = useState(false);
+
+  //如果已經登入: 直接進入會員中心
+  useEffect(() => {
+    if (LoginValidate() !== false) {
+      window.location.replace("/center");
+    }
+  });
 
   function handleRegister(event) {
     event.preventDefault();
@@ -15,6 +26,7 @@ function Register() {
     });
 
     if (verify) {
+      setAlert(false);
       const newUser = {
         email: email,
         created: new Date(),
@@ -27,27 +39,26 @@ function Register() {
         text: "註冊成功！",
         icon: "success",
       }).then(() => {
-        window.location.replace("/");
+        window.location.replace(
+          "/" +
+            {
+              email: email,
+              password: password,
+            }
+        );
       });
     } else {
-      console.log("Used account!");
+      setAlert(true);
     }
   }
   return (
     <>
-      <Card
-        style={{
-          width: "25rem",
-          margin: 0,
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-        }}
-      >
-        {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
+      <Card className="mainCard">
         <Card.Body>
           <Card.Title>Member Register</Card.Title>
+          <Alert key="danger" variant="danger" show={alert}>
+            重複的帳號！
+          </Alert>
           <Form onSubmit={handleRegister}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
@@ -56,6 +67,7 @@ function Register() {
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 placeholder="Enter email"
+                required
               />
               <Form.Text className="text-muted">
                 We'll never share your email with anyone else.
@@ -69,6 +81,7 @@ function Register() {
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 placeholder="Password"
+                required
               />
             </Form.Group>
             <Button variant="primary" type="submit">

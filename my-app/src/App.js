@@ -5,13 +5,11 @@ import {
   Switch,
   // Redirect,
 } from "react-router-dom";
-// import logo from "./logo.svg";
 import "./App.css";
 
 import Login from "./pages/Login";
 import Center from "./pages/Center";
 import Register from "./pages/Register";
-
 import NotFoundPage from "./pages/NotFoundPage";
 import "bootstrap/dist/css/bootstrap.min.css";
 
