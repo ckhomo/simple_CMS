@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { withRouter } from "react-router-dom";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import LoginValidate from "../function/LoginValidate";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 
 function Login(props) {
+  //註冊結束後可獲得預設帳密:
   var default_email = "";
   var default_password = "";
   try {
@@ -12,7 +14,7 @@ function Login(props) {
   try {
     default_password = props.location.state.password;
   } catch (err) {}
-  console.log(props)
+  // console.log(p。rops);
   const [email, setEmail] = useState(default_email);
   const [password, setPassword] = useState(default_password);
   const [alert, setAlert] = useState(false);
@@ -40,10 +42,11 @@ function Login(props) {
         time: new Date(),
       };
       localStorage.setItem("token", JSON.stringify(token));
-      swal({
+      Swal.fire({
         title: "提示訊息",
         text: "登入成功！",
         icon: "success",
+        confirmButtonText: "OK",
       }).then(() => {
         window.location.replace("/center");
       });
@@ -103,4 +106,4 @@ function Login(props) {
     </>
   );
 }
-export default Login;
+export default withRouter(Login);

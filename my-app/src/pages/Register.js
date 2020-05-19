@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { withRouter } from "react-router-dom";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import LoginValidate from "../function/LoginValidate";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 
 function Register(props) {
-  console.log(props);
+  // console.log(props);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [alert, setAlert] = useState(false);
@@ -34,18 +35,13 @@ function Register(props) {
       };
       list.push(newUser);
       localStorage.setItem("list", JSON.stringify(list));
-      swal({
+      Swal.fire({
         title: "提示訊息",
         text: "註冊成功！",
         icon: "success",
+        confirmButtonText: "OK",
       }).then(() => {
-        window.location.replace(
-          "/" +
-            {
-              email: email,
-              password: password,
-            }
-        );
+        props.history.push("/", { email: email, password: password });
       });
     } else {
       setAlert(true);
@@ -93,4 +89,4 @@ function Register(props) {
     </>
   );
 }
-export default Register;
+export default withRouter(Register);
