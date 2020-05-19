@@ -13,9 +13,26 @@ import Center from "./pages/Center";
 import Register from "./pages/Register";
 
 import NotFoundPage from "./pages/NotFoundPage";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
+  //產生預設值: 2組
+  const data = [
+    {
+      email: "user0@gmail.com",
+      created: new Date(),
+      password: "user0",
+    },
+    {
+      email: "user1@gmail.com",
+      created: new Date(),
+      password: "user1",
+    },
+  ];
+  if (localStorage.getItem("list") === null) {
+    localStorage.setItem("list", JSON.stringify(data));
+  }
+
   return (
     <>
       <Router>
